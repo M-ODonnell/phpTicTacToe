@@ -9,7 +9,8 @@
         <h1>Tic Tac Toe</h1>
         <?php
             $board = new board();
-            displayBoard();
+            $board->initialize();
+            //$board->displayBoard();
         ?>
     </body>
 </html>
