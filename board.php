@@ -1,29 +1,28 @@
 <?php
 class board {
     public $elements = array();
-    function initialize() {
+    function __construct() {
         for ($i = 0; $i < 9; $i++) {
-            $elements[$i] = $i;
-            echo "<p>$elements[$i]</p>";
+            $this->elements[$i] = $i;
         }
     }
     function displayBoard() {
         echo "<table>".
-                 "<tr>".
-                    "<td>$elements[0]</td>".
-                    "<td>$elements[1]</td>".
-                    "<td>$elements[2]</td>".
-                "</tr>".
-                "<tr>".
-                    "<td>".$elements[3]."</td>".
-                    "<td>".$elements[4]."</td>".
-                    "<td>".$elements[5]."</td>".
-                "</tr>".
-                "<tr>".
-                    "<td>".$elements[6]."</td>".
-                    "<td>".$elements[7]."</td>".
-                    "<td>".$elements[8]."</td>".
-                "</tr>".
+            "<tr>".
+            "<td>".$this->elements[0]."</td>".
+            "<td>".$this->elements[1]."</td>".
+            "<td>".$this->elements[2]."</td>".
+            "</tr>".
+            "<tr>".
+            "<td>".$this->elements[3]."</td>".
+            "<td>".$this->elements[4]."</td>".
+            "<td>".$this->elements[5]."</td>".
+            "</tr>".
+            "<tr>".
+            "<td>".$this->elements[6]."</td>".
+            "<td>".$this->elements[7]."</td>".
+            "<td>".$this->elements[8]."</td>".
+            "</tr>".
             "</table>";
     }
 }
