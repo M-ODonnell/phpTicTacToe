@@ -3,19 +3,12 @@ class board {
     public $elements = array();
     function __construct() {
         for ($i = 0; $i < 9; $i++) {
-<<<<<<< HEAD
             $this->elements[$i] = $i+1;
         }
     }
+
     function displayBoard() {
         echo "<div id='ttcBoard'><table>".
-=======
-            $this->elements[$i] = $i;
-        }
-    }
-    function displayBoard() {
-        echo "<table>".
->>>>>>> 4385cd41b24fe1c90067f491ed496695f1812cbf
             "<tr>".
             "<td>".$this->elements[0]."</td>".
             "<td>".$this->elements[1]."</td>".
@@ -31,7 +24,6 @@ class board {
             "<td>".$this->elements[7]."</td>".
             "<td>".$this->elements[8]."</td>".
             "</tr>".
-<<<<<<< HEAD
             "</table></div>";
     }
 
@@ -50,8 +42,4 @@ class board {
             exit;
         }
     }
-=======
-            "</table>";
-    }
->>>>>>> 4385cd41b24fe1c90067f491ed496695f1812cbf
 }
