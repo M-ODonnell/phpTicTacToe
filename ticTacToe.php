@@ -18,17 +18,20 @@ require("board.php");
         // else show form to pick X or O
         if (isset($_GET['submit1'])) {
             if (isset($_GET['piece'])) {
-                $_SESSION['player1'] = $_GET['piece'];
-                $_SESSION['turn'] = 0;
-                if ($_SESSION['player1'] == 'X') {
-                    $_SESSION['player2'] = 'O';
-                } else {
-                    $_SESSION['player2'] = 'X';
-                }
                 $board = new board();
+                $board->player1 = $_GET['piece'];
+                $_SESSION['turn'] = 0;
+                if ($board->player1 == 'X') {
+                    $board->player2 = 'O';
+                } else {
+                    $board->player2 = 'X';
+                }
                 $_SESSION['board'] = serialize($board);
             } else {
                 echo "Player 1, please select a piece.";
+                echo "<form action='ticTacToe.php'>";
+                echo "<input type='submit' value='Go back!' />";
+                echo "</form>";
             }
         }
         elseif (!isset($_GET['submit2'])) {
@@ -52,44 +55,40 @@ require("board.php");
             $board = unserialize($_SESSION['board']);
 
             if (isset($_GET['submit2'])) {
-                // apply the turn that has been taken
-                if ($_SESSION['turn'] % 2 == 0) {
-                    $board->elements[$_GET[('choice')]-1] = $_SESSION['player2'];
-                    // check to see if the game has been won
-                    $board->checkForWin($_SESSION['player2']);
-                    // player two just went, so player one is active
-                    echo "Active player: ".$_SESSION['player1'];
+                if (isset($_GET['choice'])) {
+                    // apply the turn that has been taken
+                    $board->getCurrentPlayer($_SESSION['turn']);
+                    $board->assignTakenTurn($_SESSION['turn'], $_GET['choice']);
+
+                    $_SESSION['turn']++;
+                    echo "<br/>Turn: " . $_SESSION['turn'];
+                    // a show updated board, with space taken
+                    $board->displayBoard();
+
+                    // check for draw
+                    if ($_SESSION['turn'] == 10) {
+                        echo "Game is a draw!<br/><br/>";
+                        session_destroy();
+                        echo "<a href='ticTacToe.php'>Start a New Game</a>";
+                        exit;
+                    }
+
+                    // serialize the board here, so it persists as a session var
+                    $_SESSION['board'] = serialize($board);
                 } else {
-                    $board->elements[$_GET[('choice')]-1] = $_SESSION['player1'];
-                    // check to see if the game has been won
-                    $board->checkForWin($_SESSION['player1']);
-                    // player one just went, so player two is active
-                    echo "Active player: ".$_SESSION['player2'];
+                    // choice hasn't been made prompt to take turn
+                    echo "Please select a position for your piece.<br/>Turn: " . $_SESSION['turn'] . "<br/>";
+                    $board->getCurrentPlayer($_SESSION['turn']);
+                    $board->displayBoard();
                 }
-
-                $_SESSION['turn']++;
-                echo "<br/>turn: " . $_SESSION['turn'];
-                // a show updated board, with space taken
-                $board->displayBoard();
-
-                // check for draw
-                if ($_SESSION['turn'] == 9) {
-                    echo "Game is a draw!<br/><br/>";
-                    session_destroy();
-                    echo "<a href='ticTacToe.php'>Start a New Game</a>";
-                    exit;
-                }
-
-                // serialize the board here, so it persists as a session var
-                $_SESSION['board'] = serialize($board);
             }
             else {
                 // a turn hasn't been taken yet, show the board now
                 if ($_SESSION['turn'] == 0) {
                     // player 1 active by default
                     $_SESSION['turn']++;
-                    echo "Active player: ".$_SESSION['player1'];
-                    echo "<br/>turn: " . $_SESSION['turn'];
+                    echo "Active player: ".$board->player1;
+                    echo "<br/>Turn: " . $_SESSION['turn'];
                     $board->displayBoard();
                 }
             }
