@@ -47,10 +47,10 @@ class board {
 
     function getCurrentPlayer($turn) {
         if ($turn % 2 == 0) {
-            // player two just went, so player one is active
+            // player one just went, so player two is active
             echo "Active player: " . $this->player2;
         } else {
-            // player one just went, so player two is active
+            // player two just went, so player one is active
             echo "Active player: " . $this->player1;
         }
     }
