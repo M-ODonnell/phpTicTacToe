@@ -39,7 +39,14 @@ class board {
             ($this->elements[0] == $player && $this->elements[4] == $player && $this->elements[8] == $player) ||
             ($this->elements[6] == $player && $this->elements[4] == $player && $this->elements[2] == $player)
         ) {
-            echo "<br/>Player ".$player." has won!<br/><br/>";
+            echo "<br/>Player ".$player." has won!<br/>";
+            session_destroy();
+            echo "<a href='ticTacToe.php'>Start a New Game</a>";
+            exit;
+        }
+        elseif ($_SESSION['turn'] == 9) {
+            echo "<br/>Game is a draw!<br/>";
+            session_destroy();
             echo "<a href='ticTacToe.php'>Start a New Game</a>";
             exit;
         }
@@ -47,10 +54,10 @@ class board {
 
     function getCurrentPlayer($turn) {
         if ($turn % 2 == 0) {
-            // player one just went, so player two is active
+            // player two
             echo "Active player: " . $this->player2;
         } else {
-            // player two just went, so player one is active
+            // player one
             echo "Active player: " . $this->player1;
         }
     }

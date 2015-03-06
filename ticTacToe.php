@@ -39,7 +39,6 @@ require("board.php");
             // and initialize turn, to differentiate
             // between new game and game in progress
             $_SESSION['turn'] = '';
-            $_SESSION['gameWon'] = false;
             ?>
             <form method="get" action="ticTacToe.php">
                 <input type="radio" name="piece" value="X"/> X <br/>
@@ -57,21 +56,14 @@ require("board.php");
             if (isset($_GET['submit2'])) {
                 if (isset($_GET['choice'])) {
                     // apply the turn that has been taken
-                    $board->getCurrentPlayer($_SESSION['turn']);
                     $board->assignTakenTurn($_SESSION['turn'], $_GET['choice']);
 
                     $_SESSION['turn']++;
+                    $board->getCurrentPlayer($_SESSION['turn']);
+
                     echo "<br/>Turn: " . $_SESSION['turn'];
                     // a show updated board, with space taken
                     $board->displayBoard();
-
-                    // check for draw
-                    if ($_SESSION['turn'] == 10) {
-                        echo "Game is a draw!<br/><br/>";
-                        session_destroy();
-                        echo "<a href='ticTacToe.php'>Start a New Game</a>";
-                        exit;
-                    }
 
                     // serialize the board here, so it persists as a session var
                     $_SESSION['board'] = serialize($board);
